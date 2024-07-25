@@ -29,17 +29,9 @@ class TaskTileModel extends FlutterFlowModel<TaskTileWidget> {
   TextEditingController? taskDescriptionTextController;
   String? Function(BuildContext, String?)?
       taskDescriptionTextControllerValidator;
-  // State field(s) for CategoryField widget.
-  FocusNode? categoryFieldFocusNode;
-  TextEditingController? categoryFieldTextController;
-  String? Function(BuildContext, String?)? categoryFieldTextControllerValidator;
   // State field(s) for CategoryDropDown widget.
   String? categoryDropDownValue;
   FormFieldController<String>? categoryDropDownValueController;
-  // State field(s) for PriorityField widget.
-  FocusNode? priorityFieldFocusNode;
-  TextEditingController? priorityFieldTextController;
-  String? Function(BuildContext, String?)? priorityFieldTextControllerValidator;
   // State field(s) for PriorityDropDown widget.
   String? priorityDropDownValue;
   FormFieldController<String>? priorityDropDownValueController;
@@ -55,11 +47,5 @@ class TaskTileModel extends FlutterFlowModel<TaskTileWidget> {
 
     taskDescriptionFocusNode?.dispose();
     taskDescriptionTextController?.dispose();
-
-    categoryFieldFocusNode?.dispose();
-    categoryFieldTextController?.dispose();
-
-    priorityFieldFocusNode?.dispose();
-    priorityFieldTextController?.dispose();
   }
 }

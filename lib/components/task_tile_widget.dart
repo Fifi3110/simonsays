@@ -53,16 +53,6 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
     _model.taskDescriptionTextController ??= TextEditingController();
     _model.taskDescriptionFocusNode ??= FocusNode();
 
-    _model.categoryFieldTextController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      _model.categoryDropDownValue,
-      'Category',
-    ));
-    _model.categoryFieldFocusNode ??= FocusNode();
-
-    _model.priorityFieldTextController ??= TextEditingController();
-    _model.priorityFieldFocusNode ??= FocusNode();
-
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
@@ -287,94 +277,21 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Container(
-                            width: 120.0,
-                            height: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18.0),
-                            ),
-                            child: Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 0.0, 8.0, 0.0),
-                                child: TextFormField(
-                                  controller:
-                                      _model.categoryFieldTextController,
-                                  focusNode: _model.categoryFieldFocusNode,
-                                  onFieldSubmitted: (_) async {
-                                    await TasksRecord.collection
-                                        .doc()
-                                        .set(createTasksRecordData(
-                                          taskCategory: widget!.cat,
-                                        ));
-                                  },
-                                  autofocus: true,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    labelText: 'Label here...',
-                                    labelStyle: TextStyle(),
-                                    hintStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedErrorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        letterSpacing: 0.0,
-                                      ),
-                                  validator: _model
-                                      .categoryFieldTextControllerValidator
-                                      .asValidator(context),
-                                ),
-                              ),
-                            ),
-                          ),
                           Expanded(
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   14.0, 0.0, 14.0, 0.0),
                               child: FlutterFlowDropDown<String>(
-                                key: ValueKey(valueOrDefault<String>(
-                                  _model.categoryFieldTextController.text,
-                                  'any',
-                                )),
                                 controller:
                                     _model.categoryDropDownValueController ??=
                                         FormFieldController<String>(null),
-                                options: <String>[],
+                                options: [
+                                  'Academic',
+                                  'Work',
+                                  'Extracurricular',
+                                  'Social',
+                                  'Misc'
+                                ],
                                 onChanged: (val) async {
                                   setState(
                                       () => _model.categoryDropDownValue = val);
@@ -402,10 +319,7 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
                                       letterSpacing: 0.0,
                                     ),
                                 hintText: 'Please select...',
-                                searchHintText: valueOrDefault<String>(
-                                  _model.category,
-                                  'category',
-                                ),
+                                searchHintText: 'Search for an item...',
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_rounded,
                                   color: FlutterFlowTheme.of(context)
@@ -428,98 +342,15 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
                               ),
                             ),
                           ),
-                          Container(
-                            width: 120.0,
-                            height: 50.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18.0),
-                            ),
-                            child: Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 0.0, 8.0, 0.0),
-                                child: TextFormField(
-                                  controller:
-                                      _model.priorityFieldTextController,
-                                  focusNode: _model.priorityFieldFocusNode,
-                                  onFieldSubmitted: (_) async {
-                                    await TasksRecord.collection
-                                        .doc()
-                                        .set(createTasksRecordData(
-                                          taskPriority: _model
-                                              .priorityFieldTextController.text,
-                                        ));
-                                  },
-                                  autofocus: true,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    labelText: 'Label here...',
-                                    labelStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
-                                    hintStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Inter',
-                                          letterSpacing: 0.0,
-                                        ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    errorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedErrorBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color(0x00000000),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Inter',
-                                        letterSpacing: 0.0,
-                                      ),
-                                  validator: _model
-                                      .priorityFieldTextControllerValidator
-                                      .asValidator(context),
-                                ),
-                              ),
-                            ),
-                          ),
                           Expanded(
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 14.0, 0.0),
                               child: FlutterFlowDropDown<String>(
-                                key: ValueKey(
-                                    _model.priorityFieldTextController.text),
                                 controller:
                                     _model.priorityDropDownValueController ??=
                                         FormFieldController<String>(null),
-                                options: ['Option 1'],
+                                options: ['1', '2', '3', '4', '5'],
                                 onChanged: (val) => setState(
                                     () => _model.priorityDropDownValue = val),
                                 width: 300.0,
@@ -679,54 +510,17 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
                                       13.0, 0.0, 5.0, 0.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-                                      if (_model.taskTitleTextController.text !=
-                                              null &&
-                                          _model.taskTitleTextController.text !=
-                                              '') {
-                                        await TasksRecord.collection
-                                            .doc()
-                                            .set(createTasksRecordData(
-                                              taskName: _model
-                                                  .taskTitleTextController.text,
-                                              completed: false,
-                                              dueDate: _model.datePicked,
-                                              taskCategory:
-                                                  valueOrDefault<String>(
-                                                _model
-                                                    .categoryFieldTextController
-                                                    .text,
-                                                'CatField',
-                                              ),
-                                              user: currentUserReference?.id,
-                                              created: getCurrentTimestamp,
-                                              taskPriority:
-                                                  valueOrDefault<String>(
-                                                _model
-                                                    .priorityFieldTextController
-                                                    .text,
-                                                'Priority',
-                                              ),
-                                            ));
-                                        Navigator.pop(context);
-                                      } else {
-                                        await showDialog(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return AlertDialog(
-                                              content: Text(
-                                                  'Task is empty, input details...'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          alertDialogContext),
-                                                  child: Text('Ok'),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      }
+                                      await TasksRecord.collection
+                                          .doc()
+                                          .set(createTasksRecordData(
+                                            taskName: _model
+                                                .taskTitleTextController.text,
+                                            completed: false,
+                                            dueDate: _model.datePicked,
+                                            user: currentUserReference?.id,
+                                            created: getCurrentTimestamp,
+                                          ));
+                                      Navigator.pop(context);
                                     },
                                     text: 'Create task',
                                     icon: Icon(
