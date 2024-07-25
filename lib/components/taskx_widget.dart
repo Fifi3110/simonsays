@@ -113,7 +113,7 @@ class _TaskxWidgetState extends State<TaskxWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            context.pushNamed('ProjectTile');
+                            context.pushNamed('null');
                           },
                           child: Text(
                             valueOrDefault<String>(

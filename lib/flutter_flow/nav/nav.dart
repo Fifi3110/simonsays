@@ -106,11 +106,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'project',
           path: '/project',
           builder: (context, params) => ProjectWidget(),
-        ),
-        FFRoute(
-          name: 'ProjectTile',
-          path: '/projectTile',
-          builder: (context, params) => ProjectTileWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
