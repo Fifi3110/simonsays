@@ -4,11 +4,11 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'taskx_model.dart';
-export 'taskx_model.dart';
+import 'task_model.dart';
+export 'task_model.dart';
 
-class TaskxWidget extends StatefulWidget {
-  const TaskxWidget({
+class TaskWidget extends StatefulWidget {
+  const TaskWidget({
     super.key,
     required this.tasksDoc,
   });
@@ -16,11 +16,11 @@ class TaskxWidget extends StatefulWidget {
   final TasksRecord? tasksDoc;
 
   @override
-  State<TaskxWidget> createState() => _TaskxWidgetState();
+  State<TaskWidget> createState() => _TaskWidgetState();
 }
 
-class _TaskxWidgetState extends State<TaskxWidget> {
-  late TaskxModel _model;
+class _TaskWidgetState extends State<TaskWidget> {
+  late TaskModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -31,7 +31,7 @@ class _TaskxWidgetState extends State<TaskxWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => TaskxModel());
+    _model = createModel(context, () => TaskModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -107,27 +107,17 @@ class _TaskxWidgetState extends State<TaskxWidget> {
                         ),
                       ),
                       Expanded(
-                        child: InkWell(
-                          splashColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          hoverColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () async {
-                            context.pushNamed('null');
-                          },
-                          child: Text(
-                            valueOrDefault<String>(
-                              widget!.tasksDoc?.taskName,
-                              'taskName',
-                            ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16.0,
-                                  letterSpacing: 0.0,
-                                ),
+                        child: Text(
+                          valueOrDefault<String>(
+                            widget!.tasksDoc?.taskName,
+                            'taskName',
                           ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16.0,
+                                    letterSpacing: 0.0,
+                                  ),
                         ),
                       ),
                       Container(

@@ -1,7 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/task_tile_widget.dart';
-import '/components/taskx_widget.dart';
+import '/components/task_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -305,7 +305,7 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                           itemBuilder: (context, listViewIndex) {
                             final listViewTasksRecord =
                                 listViewTasksRecordList[listViewIndex];
-                            return TaskxWidget(
+                            return TaskWidget(
                               key: Key(
                                   'Key7hc_${listViewIndex}_of_${listViewTasksRecordList.length}'),
                               tasksDoc: listViewTasksRecord,
