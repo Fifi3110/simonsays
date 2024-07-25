@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "58165935628",
+    "project_id": "simonsays-b0101",
+    "storage_bucket": "simonsays-b0101.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58165935628:android:12fa96d8ddf76db0583829",
+        "android_client_info": {
+          "package_name": "com.flutterflow.simonsays"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE0YZM3qZ2X4xb4QZ619zSRB459Ouoyvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
