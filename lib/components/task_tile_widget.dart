@@ -53,7 +53,11 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
     _model.taskDescriptionTextController ??= TextEditingController();
     _model.taskDescriptionFocusNode ??= FocusNode();
 
-    _model.categoryFieldTextController ??= TextEditingController();
+    _model.categoryFieldTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      _model.categoryDropDownValue,
+      'Category',
+    ));
     _model.categoryFieldFocusNode ??= FocusNode();
 
     _model.priorityFieldTextController ??= TextEditingController();
@@ -398,7 +402,10 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
                                       letterSpacing: 0.0,
                                     ),
                                 hintText: 'Please select...',
-                                searchHintText: _model.category,
+                                searchHintText: valueOrDefault<String>(
+                                  _model.category,
+                                  'category',
+                                ),
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_rounded,
                                   color: FlutterFlowTheme.of(context)

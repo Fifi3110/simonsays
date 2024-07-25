@@ -79,15 +79,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 12.0),
-                              child: Image.network(
-                                '',
-                                width: 120.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(4.0),
                               child: Image.network(
