@@ -267,18 +267,21 @@ class _ProfileWidgetState extends State<ProfileWidget>
               ).animateOnPageLoad(animationsMap['cardOnPageLoadAnimation']!),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
-                child: Text(
-                  'Andrea Davis',
-                  style: FlutterFlowTheme.of(context).headlineSmall.override(
-                        fontFamily: 'Readex Pro',
-                        letterSpacing: 0.0,
-                      ),
-                ).animateOnPageLoad(animationsMap['textOnPageLoadAnimation1']!),
+                child: AuthUserStreamWidget(
+                  builder: (context) => Text(
+                    currentUserDisplayName,
+                    style: FlutterFlowTheme.of(context).headlineSmall.override(
+                          fontFamily: 'Readex Pro',
+                          letterSpacing: 0.0,
+                        ),
+                  ).animateOnPageLoad(
+                      animationsMap['textOnPageLoadAnimation1']!),
+                ),
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                 child: Text(
-                  'andrea@domainname.com',
+                  currentUserEmail,
                   style: FlutterFlowTheme.of(context).titleSmall.override(
                         fontFamily: 'Inter',
                         color: FlutterFlowTheme.of(context).secondary,

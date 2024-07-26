@@ -134,9 +134,12 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                           controller:
                                               _model.signupNameTextController,
                                           focusNode: _model.signupNameFocusNode,
+                                          textCapitalization:
+                                              TextCapitalization.words,
                                           textInputAction: TextInputAction.next,
                                           obscureText: false,
                                           decoration: InputDecoration(
+                                            isDense: false,
                                             hintText: 'Name',
                                             hintStyle: GoogleFonts.getFont(
                                               'Open Sans',
@@ -190,8 +193,7 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                                   required isFocused,
                                                   maxLength}) =>
                                               null,
-                                          keyboardType:
-                                              TextInputType.emailAddress,
+                                          keyboardType: TextInputType.name,
                                           validator: _model
                                               .signupNameTextControllerValidator
                                               .asValidator(context),

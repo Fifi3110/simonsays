@@ -337,50 +337,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                   child: FFButtonWidget(
                                     onPressed: () async {
                                       Function() _navigate = () {};
-                                      if (currentUserEmail != null &&
-                                          currentUserEmail != '') {
-                                        if (valueOrDefault(
-                                                currentUserDocument?.password,
-                                                '') ==
-                                            currentUserEmail) {
-                                          GoRouter.of(context)
-                                              .prepareAuthEvent();
-
-                                          final user =
-                                              await authManager.signInWithEmail(
-                                            context,
-                                            _model
-                                                .loginEmailTextController.text,
-                                            _model.loginPasswordTextController
-                                                .text,
-                                          );
-                                          if (user == null) {
-                                            return;
-                                          }
-
-                                          _navigate = () => context.goNamedAuth(
-                                              'project', context.mounted);
-                                        } else {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (alertDialogContext) {
-                                              return AlertDialog(
-                                                title: Text('Error'),
-                                                content: Text(
-                                                    'Password is incorrrect'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Close'),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        }
-                                      } else {
+                                      if (valueOrDefault(
+                                              currentUserDocument?.password,
+                                              '') !=
+                                          currentUserEmail) {
                                         await showDialog(
                                           context: context,
                                           builder: (alertDialogContext) {
@@ -399,6 +359,22 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                             );
                                           },
                                         );
+                                      } else {
+                                        GoRouter.of(context).prepareAuthEvent();
+
+                                        final user =
+                                            await authManager.signInWithEmail(
+                                          context,
+                                          _model.loginEmailTextController.text,
+                                          _model
+                                              .loginPasswordTextController.text,
+                                        );
+                                        if (user == null) {
+                                          return;
+                                        }
+
+                                        _navigate = () => context.goNamedAuth(
+                                            'project', context.mounted);
                                       }
 
                                       _navigate();

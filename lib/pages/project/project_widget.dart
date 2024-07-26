@@ -118,22 +118,42 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          'My Projects',
-                                          style: FlutterFlowTheme.of(context)
-                                              .titleLarge
-                                              .override(
-                                                fontFamily: 'Inter',
-                                                letterSpacing: 0.0,
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Text(
+                                              'Welcome to your projects page',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleLarge
+                                                      .override(
+                                                        fontFamily: 'Inter',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: AuthUserStreamWidget(
+                                                builder: (context) => Text(
+                                                  currentUserDisplayName,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleLarge
+                                                      .override(
+                                                        fontFamily: 'Inter',
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                ),
                                               ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
                                   ),
                                   Expanded(
                                     child: Align(
-                                      alignment:
-                                          AlignmentDirectional(1.0, -1.0),
+                                      alignment: AlignmentDirectional(1.0, 0.0),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
@@ -340,10 +360,40 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                           itemBuilder: (context, listViewIndex) {
                             final listViewTasksRecord =
                                 listViewTasksRecordList[listViewIndex];
-                            return TaskWidget(
-                              key: Key(
-                                  'Key7hc_${listViewIndex}_of_${listViewTasksRecordList.length}'),
-                              tasksDoc: listViewTasksRecord,
+                            return StreamBuilder<List<TasksRecord>>(
+                              stream: queryTasksRecord(
+                                queryBuilder: (tasksRecord) =>
+                                    tasksRecord.where(
+                                  'user',
+                                  isEqualTo: currentUserReference?.id,
+                                ),
+                              ),
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 50.0,
+                                      height: 50.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          FlutterFlowTheme.of(context).primary,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                List<TasksRecord> taskTasksRecordList =
+                                    snapshot.data!;
+
+                                return TaskWidget(
+                                  key: Key(
+                                      'Key7hc_${listViewIndex}_of_${listViewTasksRecordList.length}'),
+                                  tasksDoc: listViewTasksRecord,
+                                  completed: false,
+                                );
+                              },
                             );
                           },
                         );
