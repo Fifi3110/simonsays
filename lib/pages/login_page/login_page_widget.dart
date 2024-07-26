@@ -336,20 +336,72 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                       0.0, 0.0, 0.0, 18.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-                                      GoRouter.of(context).prepareAuthEvent();
+                                      Function() _navigate = () {};
+                                      if (currentUserEmail != null &&
+                                          currentUserEmail != '') {
+                                        if (valueOrDefault(
+                                                currentUserDocument?.password,
+                                                '') ==
+                                            currentUserEmail) {
+                                          GoRouter.of(context)
+                                              .prepareAuthEvent();
 
-                                      final user =
-                                          await authManager.signInWithEmail(
-                                        context,
-                                        _model.loginEmailTextController.text,
-                                        _model.loginPasswordTextController.text,
-                                      );
-                                      if (user == null) {
-                                        return;
+                                          final user =
+                                              await authManager.signInWithEmail(
+                                            context,
+                                            _model
+                                                .loginEmailTextController.text,
+                                            _model.loginPasswordTextController
+                                                .text,
+                                          );
+                                          if (user == null) {
+                                            return;
+                                          }
+
+                                          _navigate = () => context.goNamedAuth(
+                                              'project', context.mounted);
+                                        } else {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text('Error'),
+                                                content: Text(
+                                                    'Password is incorrrect'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Close'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
+                                      } else {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('Error'),
+                                              content: Text(
+                                                  'Email not registeres or Password invalid'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext),
+                                                  child: Text('Close'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       }
 
-                                      context.goNamedAuth(
-                                          'project', context.mounted);
+                                      _navigate();
                                     },
                                     text: 'Login',
                                     options: FFButtonOptions(

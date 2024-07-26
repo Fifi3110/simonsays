@@ -407,6 +407,35 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                               .signupConfirmPassswordTextController,
                                           focusNode: _model
                                               .signupConfirmPassswordFocusNode,
+                                          onFieldSubmitted: (_) async {
+                                            if (_model
+                                                    .signupPasswordTextController
+                                                    .text ==
+                                                _model
+                                                    .signupConfirmPassswordTextController
+                                                    .text) {
+                                              context.pushNamed('project');
+                                            } else {
+                                              await showDialog(
+                                                context: context,
+                                                builder: (alertDialogContext) {
+                                                  return AlertDialog(
+                                                    title: Text('Error'),
+                                                    content: Text(
+                                                        'Passwords don\'t match'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext),
+                                                        child: Text('Close'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            }
+                                          },
                                           autofocus: false,
                                           obscureText: !_model
                                               .signupConfirmPassswordVisibility,
@@ -517,48 +546,98 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                                 .validate()) {
                                           return;
                                         }
-                                        GoRouter.of(context).prepareAuthEvent();
-                                        if (_model.signupPasswordTextController
+                                        if (currentUserEmail != null &&
+                                            currentUserEmail != '') {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text('Error'),
+                                                content: Text(
+                                                    'Email is already registered'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Close'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        } else if (_model
+                                                .signupPasswordTextController
                                                 .text !=
                                             _model
                                                 .signupConfirmPassswordTextController
                                                 .text) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Passwords don\'t match!',
-                                              ),
-                                            ),
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text('Error'),
+                                                content: Text(
+                                                    'Passwords don\'t match'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Close'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
                                           );
-                                          return;
+                                        } else {
+                                          GoRouter.of(context)
+                                              .prepareAuthEvent();
+                                          if (_model
+                                                  .signupPasswordTextController
+                                                  .text !=
+                                              _model
+                                                  .signupConfirmPassswordTextController
+                                                  .text) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Passwords don\'t match!',
+                                                ),
+                                              ),
+                                            );
+                                            return;
+                                          }
+
+                                          final user = await authManager
+                                              .createAccountWithEmail(
+                                            context,
+                                            _model
+                                                .signupEmailTextController.text,
+                                            _model.signupPasswordTextController
+                                                .text,
+                                          );
+                                          if (user == null) {
+                                            return;
+                                          }
+
+                                          await UsersRecord.collection
+                                              .doc(user.uid)
+                                              .update(createUsersRecordData(
+                                                email: _model
+                                                    .signupEmailTextController
+                                                    .text,
+                                                createdTime:
+                                                    getCurrentTimestamp,
+                                                displayName: _model
+                                                    .signupNameTextController
+                                                    .text,
+                                              ));
+
+                                          context.pushNamedAuth(
+                                              'project', context.mounted);
                                         }
-
-                                        final user = await authManager
-                                            .createAccountWithEmail(
-                                          context,
-                                          _model.signupEmailTextController.text,
-                                          _model.signupPasswordTextController
-                                              .text,
-                                        );
-                                        if (user == null) {
-                                          return;
-                                        }
-
-                                        await UsersRecord.collection
-                                            .doc(user.uid)
-                                            .update(createUsersRecordData(
-                                              email: _model
-                                                  .signupEmailTextController
-                                                  .text,
-                                              createdTime: getCurrentTimestamp,
-                                              displayName: _model
-                                                  .signupNameTextController
-                                                  .text,
-                                            ));
-
-                                        context.goNamedAuth(
-                                            'project', context.mounted);
                                       },
                                       text: 'Create Account',
                                       options: FFButtonOptions(

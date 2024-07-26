@@ -6,10 +6,12 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:text_search/text_search.dart';
 import 'project_model.dart';
 export 'project_model.dart';
 
@@ -217,6 +219,39 @@ class _ProjectWidgetState extends State<ProjectWidget> {
                                   child: TextFormField(
                                     controller: _model.textController,
                                     focusNode: _model.textFieldFocusNode,
+                                    onChanged: (_) => EasyDebounce.debounce(
+                                      '_model.textController',
+                                      Duration(milliseconds: 2000),
+                                      () async {
+                                        await queryTasksRecordOnce()
+                                            .then(
+                                              (records) =>
+                                                  _model.simpleSearchResults =
+                                                      TextSearch(
+                                                records
+                                                    .map(
+                                                      (record) => TextSearchItem
+                                                          .fromTerms(record, [
+                                                        record.taskCategory!,
+                                                        record.taskDetails!,
+                                                        record.taskName!,
+                                                        record.taskPriority!
+                                                      ]),
+                                                    )
+                                                    .toList(),
+                                              )
+                                                          .search(_model
+                                                              .textController
+                                                              .text)
+                                                          .map((r) => r.object)
+                                                          .toList(),
+                                            )
+                                            .onError((_, __) =>
+                                                _model.simpleSearchResults = [])
+                                            .whenComplete(
+                                                () => setState(() {}));
+                                      },
+                                    ),
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       labelText: 'Find your task...',

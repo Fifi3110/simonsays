@@ -510,16 +510,41 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
                                       13.0, 0.0, 5.0, 0.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
-                                      await TasksRecord.collection
-                                          .doc()
-                                          .set(createTasksRecordData(
-                                            taskName: _model
-                                                .taskTitleTextController.text,
-                                            completed: false,
-                                            dueDate: _model.datePicked,
-                                            user: currentUserReference?.id,
-                                            created: getCurrentTimestamp,
-                                          ));
+                                      if (_model.taskTitleTextController.text ==
+                                              null ||
+                                          _model.taskTitleTextController.text ==
+                                              '') {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('Error'),
+                                              content: Text(
+                                                  'Taskk title is empty, cannot create task'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext),
+                                                  child: Text('Close'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        await TasksRecord.collection
+                                            .doc()
+                                            .set(createTasksRecordData(
+                                              taskName: _model
+                                                  .taskTitleTextController.text,
+                                              completed: false,
+                                              dueDate: _model.datePicked,
+                                              user: currentUserReference?.id,
+                                              created: getCurrentTimestamp,
+                                            ));
+                                      }
+
                                       Navigator.pop(context);
                                     },
                                     text: 'Create task',
